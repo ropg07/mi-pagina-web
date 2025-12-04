@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard de Inserción Laboral Juvenil (18-30 años)</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+    <!-- Chart.js Datalabels Plugin (for the Donut Chart) -->
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+    <style>
+        /* Configuración de color para un dashboard oscuro y moderno */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0d1117; /* Fondo oscuro */
+        }
+        .card {
+            background-color: #161b22; /* Color de tarjeta ligeramente más claro */
+            border: 1px solid #30363d;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .kpi-value {
+            font-size: 2.5rem;
+        }
+        /* Estilos específicos para la Nube de Palabras simulada */
+        .word-cloud-item {
+            cursor: pointer;
+            transition: transform 0.2s, opacity 0.2s;
+        }
+        .word-cloud-item:hover {
+            transform: scale(1.1);
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body class="text-gray-100 min-h-screen p-4 sm:p-6">
+
+    <!-- Encabezado del Dashboard -->
+    <header class="mb-8">
+        <h1 class="text-3xl sm:text-4xl font-extrabold text-blue-400 mb-2">
+            Inserción Laboral Juvenil (18-30) - Argentina
+        </h1>
+        <p class="text-gray-400 text-lg">
+            Análisis de Indicadores Clave y Tendencias del Mercado de Empleo Joven.
+        </p>
+    </header>
+
+    <!-- Pestañas de Navegación (Secciones) -->
+    <div class="mb-6 border-b border-gray-700">
+        <nav class="-mb-px flex space-x-4 sm:space-x-8" id="tab-navigation">
+            <button data-section="summary" class="tab-button py-2 px-3 sm:px-4 border-b-2 font-medium text-sm sm:text-base border-blue-500 text-blue-400 focus:outline-none">
+                1. Resumen Ejecutivo
+            </button>
+            <button data-section="education" class="tab-button py-2 px-3 sm:px-4 border-b-2 font-medium text-sm sm:text-base border-transparent text-gray-400 hover:text-gray-200 hover:border-gray-500 focus:outline-none">
+                2. Perfil y Educación
+            </button>
+            <button data-section="quality" class="tab-button py-2 px-3 sm:px-4 border-b-2 font-medium text-sm sm:text-base border-transparent text-gray-400 hover:text-gray-200 hover:border-gray-500 focus:outline-none">
+                3. Calidad del Empleo
+            </button>
+        </nav>
+    </div>
+
+    <!-- Contenido del Dashboard -->
+    <main class="space-y-8">
+
+        <!-- SECCIÓN 1: RESUMEN EJECUTIVO -->
+        <section id="summary-section" class="dashboard-section space-y-8">
+            <h2 class="text-2xl font-semibold mb-4 text-gray-200">Indicadores Clave de Desempeño (KPIs)</h2>
+
+            <!-- Tarjetas de KPIs -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- KPI 1: Tasa de Empleo Juvenil -->
+                <div class="card p-5 rounded-xl flex flex-col justify-between">
+                    <p class="text-sm uppercase text-gray-400">Tasa de Empleo Juvenil (TEJ)</p>
+                    <div class="flex items-center mt-2">
+                        <span class="kpi-value font-bold text-green-400">42.5%</span>
+                        <div class="ml-4 text-sm flex items-center text-red-400">
+                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6"></path></svg>
+                            -1.2pts (vs Q anterior)
+                        </div>
+                    </div>
+                </div>
+
+                <!-- KPI 2: Tasa de Desempleo Juvenil -->
+                <div class="card p-5 rounded-xl flex flex-col justify-between">
+                    <p class="text-sm uppercase text-gray-400">Tasa de Desempleo Juvenil (TDJ)</p>
+                    <div class="flex items-center mt-2">
+                        <span class="kpi-value font-bold text-red-400">18.1%</span>
+                        <div class="ml-4 text-sm flex items-center text-red-400">
+                            <svg class="w-4 h-4 mr-1 transform rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6"></path></svg>
+                            +0.8pts (vs Q anterior)
+                        </div>
+                    </div>
+                </div>
+
+                <!-- KPI 3: Tasa de Informalidad Juvenil -->
+                <div class="card p-5 rounded-xl flex flex-col justify-between">
+                    <p class="text-sm uppercase text-gray-400">Tasa de Informalidad Juvenil</p>
+                    <div class="flex items-center mt-2">
+                        <span class="kpi-value font-bold text-yellow-400">45.0%</span>
+                        <div class="ml-4 text-sm flex items-center text-red-400">
+                            <svg class="w-4 h-4 mr-1 transform rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6"></path></svg>
+                            +1.5pts (vs Q anterior)
+                        </div>
+                    </div>
+                </div>
+
+                <!-- KPI 4: Tiempo Promedio de Búsqueda (1er Empleo Formal) -->
+                <div class="card p-5 rounded-xl flex flex-col justify-between">
+                    <p class="text-sm uppercase text-gray-400">Tiempo Promedio de Búsqueda</p>
+                    <div class="flex items-center mt-2">
+                        <span class="kpi-value font-bold text-purple-400">11.5 meses</span>
+                        <div class="ml-4 text-sm flex items-center text-red-400">
+                            <svg class="w-4 h-4 mr-1 transform rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6"></path></svg>
+                            +0.7m (vs Q anterior)
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gráficos de Tendencia y Distribución -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Gráfico de Tendencia (TDJ vs Nacional) -->
+                <div class="card p-5 rounded-xl lg:col-span-2">
+                    <h3 class="text-lg font-semibold mb-3 text-gray-200">Evolución Trimestral de la Tasa de Desempleo</h3>
+                    <div class="h-64 sm:h-80">
+                        <canvas id="unemploymentTrendChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Gráfico de Anillo/Donut (Distribución PEA Juvenil) -->
+                <div class="card p-5 rounded-xl lg:col-span-1">
+                    <h3 class="text-lg font-semibold mb-3 text-gray-200">Distribución de la PEA Juvenil</h3>
+                    <div class="h-64 sm:h-80 flex justify-center items-center">
+                        <canvas id="peaDistributionChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 2: PERFIL Y TRAYECTORIA EDUCATIVA -->
+        <section id="education-section" class="dashboard-section hidden space-y-8">
+            <h2 class="text-2xl font-semibold mb-4 text-gray-200">Perfil y Trayectoria Educativa</h2>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Gráfico de Barras Agrupadas (Empleo por Nivel Educativo) -->
+                <div class="card p-5 rounded-xl">
+                    <h3 class="text-lg font-semibold mb-3 text-gray-200">Tasa de Empleo por Nivel Educativo</h3>
+                    <div class="h-64 sm:h-80">
+                        <canvas id="educationEmploymentChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Mapa de Calor Simulado (Demanda vs. Oferta por Área) -->
+                <div class="card p-5 rounded-xl">
+                    <h3 class="text-lg font-semibold mb-3 text-gray-200">Match Demanda (Ofertas) vs. Postulaciones (Área Laboral)</h3>
+                    <div id="heatmap-simulation" class="grid grid-cols-3 gap-1 h-64 sm:h-80 pt-2">
+                        <!-- Etiquetas de las áreas -->
+                        <div class="col-span-3 grid grid-cols-3 font-medium text-xs text-gray-400 mb-1">
+                            <div class="text-center">Ofertas (miles)</div>
+                            <div class="text-center">Postulaciones (miles)</div>
+                            <div class="text-center">Índice Match (Demanda/Oferta)</div>
+                        </div>
+
+                        <!-- Fila 1: Tecnología -->
+                        <div class="p-2 bg-gray-700 rounded-l-md text-sm font-medium">Tecnología / IT</div>
+                        <div class="p-2 bg-blue-900 text-center font-bold text-lg rounded-sm" style="opacity: 0.8;">12.5</div>
+                        <div class="p-2 bg-red-900 text-center font-bold text-lg rounded-r-md" style="opacity: 0.9;">4.5</div>
+
+                        <!-- Fila 2: Administración -->
+                        <div class="p-2 bg-gray-700 rounded-l-md text-sm font-medium mt-1">Administración / Contable</div>
+                        <div class="p-2 bg-blue-900 text-center font-bold text-lg rounded-sm mt-1" style="opacity: 0.6;">8.9</div>
+                        <div class="p-2 bg-red-900 text-center font-bold text-lg rounded-r-md mt-1" style="opacity: 0.3;">15.0</div>
+
+                         <!-- Fila 3: Marketing / Ventas -->
+                        <div class="p-2 bg-gray-700 rounded-l-md text-sm font-medium mt-1">Marketing / Ventas</div>
+                        <div class="p-2 bg-blue-900 text-center font-bold text-lg rounded-sm mt-1" style="opacity: 0.9;">10.1</div>
+                        <div class="p-2 bg-red-900 text-center font-bold text-lg rounded-r-md mt-1" style="opacity: 0.6;">9.5</div>
+
+                        <!-- Fila 4: RRHH / Legales -->
+                        <div class="p-2 bg-gray-700 rounded-l-md text-sm font-medium mt-1">RRHH / Legales</div>
+                        <div class="p-2 bg-blue-900 text-center font-bold text-lg rounded-sm mt-1" style="opacity: 0.3;">3.2</div>
+                        <div class="p-2 bg-red-900 text-center font-bold text-lg rounded-r-md mt-1" style="opacity: 0.7;">11.2</div>
+
+                        <p class="col-span-3 text-xs text-gray-500 mt-2">
+                            * Simulación de Mapa de Calor: Los colores más intensos indican mayor volumen de ofertas (azul) o postulaciones (rojo). El índice Match muestra la relación entre ambos.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 3: CALIDAD Y DINÁMICA DEL EMPLEO -->
+        <section id="quality-section" class="dashboard-section hidden space-y-8">
+            <h2 class="text-2xl font-semibold mb-4 text-gray-200">Calidad y Dinámica del Empleo</h2>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Gráfico de Barras Apiladas (Contrato por Tipo de Empleador) -->
+                <div class="card p-5 rounded-xl">
+                    <h3 class="text-lg font-semibold mb-3 text-gray-200">Tipo de Contrato por Tamaño de Empleador</h3>
+                    <div class="h-64 sm:h-80">
+                        <canvas id="contractTypeChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Nube de Palabras (Habilidades más Demandadas) -->
+                <div class="card p-5 rounded-xl">
+                    <h3 class="text-lg font-semibold mb-3 text-gray-200">Habilidades Duras y Blandas más Demandadas</h3>
+                    <div class="flex flex-wrap justify-center items-center h-64 sm:h-80 gap-3 p-4">
+                        <span class="word-cloud-item text-4xl text-blue-400 font-bold">Python</span>
+                        <span class="word-cloud-item text-2xl text-green-400">Trabajo en Equipo</span>
+                        <span class="word-cloud-item text-xl text-yellow-400">Inglés Avanzado</span>
+                        <span class="word-cloud-item text-3xl text-red-400 font-semibold">Liderazgo</span>
+                        <span class="word-cloud-item text-lg text-gray-400">SQL</span>
+                        <span class="word-cloud-item text-2xl text-purple-400">Data Analytics</span>
+                        <span class="word-cloud-item text-base text-gray-500">Manejo de Tiempos</span>
+                        <span class="word-cloud-item text-3xl text-orange-400 font-semibold">Comunicación</span>
+                        <span class="word-cloud-item text-2xl text-teal-400">Excel Avanzado</span>
+                        <span class="word-cloud-item text-xl text-pink-400">Resolución de Problemas</span>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-2 text-center">
+                        * Simulación de Nube de Palabras: El tamaño indica la frecuencia de la demanda.
+                    </p>
+                </div>
+
+                 <!-- Espacio para el Box Plot (Solo una simulación debido a la complejidad de Chart.js) -->
+                <div class="card p-5 rounded-xl lg:col-span-2">
+                    <h3 class="text-lg font-semibold mb-3 text-gray-200">Distribución Salarial por Nivel Educativo y Género (Simulado)</h3>
+                    <div class="text-gray-400 bg-gray-800 p-4 rounded-lg">
+                        <p class="mb-2 font-medium text-sm">Visualización de Box Plot (Caja y Bigotes):</p>
+                        <ul class="list-disc list-inside ml-4 text-xs space-y-1">
+                            <li><span class="text-green-300">Mediana:</span> $450.000 ARS (Profesional Completo)</li>
+                            <li><span class="text-red-300">Rango Intercuartílico (Q1-Q3):</span> Gran dispersión salarial en roles técnicos.</li>
+                            <li><span class="text-yellow-300">Brecha de Género:</span> La mediana salarial es un 15% menor para mujeres en IT y Finanzas.</li>
+                            <li><span class="text-blue-300">Outliers:</span> Altos salarios en roles de desarrollo senior (aún siendo jóvenes).</li>
+                        </ul>
+                        <p class="mt-3 text-xs text-gray-500">*Nota: Esta visualización requiere datos complejos y se presenta aquí como un resumen interpretativo.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        // Registrar el plugin de datalabels para Chart.js
+        Chart.register(ChartDataLabels);
+
+        // --- Mock Data (Datos Simulados) ---
+        const MOCK_DATA = {
+            unemployment: {
+                labels: ['Q1 22', 'Q2 22', 'Q3 22', 'Q4 22', 'Q1 23', 'Q2 23', 'Q3 23', 'Q4 23', 'Q1 24'],
+                tdj: [20.1, 19.5, 19.0, 18.5, 18.2, 18.8, 17.9, 17.3, 18.1],
+                nacional: [7.5, 7.0, 6.8, 6.3, 6.0, 6.2, 5.8, 5.7, 6.5],
+            },
+            peaDistribution: {
+                labels: ['Formal', 'Informal', 'Desempleado', 'Inactivo (NEETs)'],
+                data: [35, 30, 18, 17], // Total 100% de la PEA juvenil + NEETs
+                colors: ['#34D399', '#FBBF24', '#F87171', '#60A5FA']
+            },
+            educationEmployment: {
+                labels: ['Secundario Incompleto', 'Secundario Completo', 'Terciario/Uni Incompleto', 'Terciario/Uni Completo'],
+                employed: [25, 45, 55, 65], // Tasa de Empleo (%)
+                unemployed: [15, 12, 10, 8], // Tasa de Desempleo (%)
+            },
+            contractType: {
+                labels: ['Pyme (11-250)', 'Gran Empresa (>250)', 'Startup (<10)'],
+                indefinido: [40, 65, 30],
+                plazoFijo: [35, 20, 40],
+                monotributo: [25, 15, 30]
+            }
+        };
+
+        // --- Funciones de Inicialización de Gráficos ---
+
+        function initUnemploymentTrendChart() {
+            const ctx = document.getElementById('unemploymentTrendChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: MOCK_DATA.unemployment.labels,
+                    datasets: [
+                        {
+                            label: 'TDJ (18-30 años)',
+                            data: MOCK_DATA.unemployment.tdj,
+                            borderColor: '#3B82F6', // Azul
+                            tension: 0.3,
+                            fill: false,
+                        },
+                        {
+                            label: 'Desempleo Nacional (Total)',
+                            data: MOCK_DATA.unemployment.nacional,
+                            borderColor: '#F87171', // Rojo suave
+                            tension: 0.3,
+                            fill: false,
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: { display: true, text: 'Tasa (%)', color: '#9CA3AF' },
+                            grid: { color: '#374151' },
+                            ticks: { color: '#D1D5DB' }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { color: '#D1D5DB' }
+                        }
+                    },
+                    plugins: {
+                        legend: { labels: { color: '#D1D5DB' } },
+                        tooltip: { backgroundColor: '#1F2937' }
+                    }
+                }
+            });
+        }
+
+        function initPeaDistributionChart() {
+            const ctx = document.getElementById('peaDistributionChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: MOCK_DATA.peaDistribution.labels,
+                    datasets: [{
+                        data: MOCK_DATA.peaDistribution.data,
+                        backgroundColor: MOCK_DATA.peaDistribution.colors,
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: { color: '#D1D5DB' }
+                        },
+                        datalabels: {
+                            formatter: (value, ctx) => {
+                                let sum = ctx.dataset.data.reduce((a, b) => a + b, 0);
+                                let percentage = (value * 100 / sum).toFixed(1) + "%";
+                                return percentage;
+                            },
+                            color: '#0d1117',
+                            font: { weight: 'bold' }
+                        }
+                    },
+                    cutout: '70%', // Para hacerlo un donut
+                }
+            });
+        }
+
+        function initEducationEmploymentChart() {
+            const ctx = document.getElementById('educationEmploymentChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: MOCK_DATA.educationEmployment.labels,
+                    datasets: [
+                        {
+                            label: 'Tasa de Empleo (%)',
+                            data: MOCK_DATA.educationEmployment.employed,
+                            backgroundColor: '#10B981', // Verde
+                        },
+                        {
+                            label: 'Tasa de Desempleo (%)',
+                            data: MOCK_DATA.educationEmployment.unemployed,
+                            backgroundColor: '#EF4444', // Rojo
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: { display: true, text: 'Tasa (%)', color: '#9CA3AF' },
+                            grid: { color: '#374151' },
+                            ticks: { color: '#D1D5DB' }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { color: '#D1D5DB' }
+                        }
+                    },
+                    plugins: {
+                        legend: { labels: { color: '#D1D5DB' } },
+                        tooltip: { backgroundColor: '#1F2937' }
+                    }
+                }
+            });
+        }
+
+        function initContractTypeChart() {
+            const ctx = document.getElementById('contractTypeChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: MOCK_DATA.contractType.labels,
+                    datasets: [
+                        {
+                            label: 'Contrato Indefinido',
+                            data: MOCK_DATA.contractType.indefinido,
+                            backgroundColor: '#3B82F6', // Azul
+                        },
+                        {
+                            label: 'Plazo Fijo',
+                            data: MOCK_DATA.contractType.plazoFijo,
+                            backgroundColor: '#FCD34D', // Amarillo
+                        },
+                        {
+                            label: 'Monotributo (Independiente)',
+                            data: MOCK_DATA.contractType.monotributo,
+                            backgroundColor: '#A855F7', // Púrpura
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            stacked: true,
+                            grid: { display: false },
+                            ticks: { color: '#D1D5DB' }
+                        },
+                        y: {
+                            stacked: true,
+                            title: { display: true, text: 'Distribución (%)', color: '#9CA3AF' },
+                            grid: { color: '#374151' },
+                            ticks: { color: '#D1D5DB' }
+                        }
+                    },
+                    plugins: {
+                        legend: { labels: { color: '#D1D5DB' } },
+                        tooltip: { backgroundColor: '#1F2937' }
+                    }
+                }
+            });
+        }
+
+        // --- Lógica de Navegación de Pestañas (Tabs) ---
+        function setupTabs() {
+            const tabs = document.querySelectorAll('.tab-button');
+            const sections = document.querySelectorAll('.dashboard-section');
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const targetSection = tab.dataset.section;
+
+                    // Ocultar todas las secciones
+                    sections.forEach(section => {
+                        section.classList.add('hidden');
+                    });
+
+                    // Mostrar la sección objetivo
+                    document.getElementById(`${targetSection}-section`).classList.remove('hidden');
+
+                    // Actualizar el estilo de los botones
+                    tabs.forEach(t => {
+                        t.classList.remove('border-blue-500', 'text-blue-400');
+                        t.classList.add('border-transparent', 'text-gray-400', 'hover:text-gray-200', 'hover:border-gray-500');
+                    });
+
+                    tab.classList.add('border-blue-500', 'text-blue-400');
+                    tab.classList.remove('border-transparent', 'text-gray-400', 'hover:text-gray-200', 'hover:border-gray-500');
+
+                    // Redimensionar los gráficos en la pestaña visible (necesario para Chart.js)
+                    if (targetSection === 'summary') {
+                        initUnemploymentTrendChart();
+                        initPeaDistributionChart();
+                    } else if (targetSection === 'education') {
+                        initEducationEmploymentChart();
+                    } else if (targetSection === 'quality') {
+                        initContractTypeChart();
+                    }
+                });
+            });
+        }
+
+        // --- Inicialización al cargar la página ---
+        window.onload = function() {
+            // Configurar la navegación por pestañas
+            setupTabs();
+
+            // Inicializar gráficos de la pestaña por defecto (Resumen Ejecutivo)
+            initUnemploymentTrendChart();
+            initPeaDistributionChart();
+        };
+
+        // Re-inicializar gráficos al redimensionar la ventana (para Chart.js)
+        window.addEventListener('resize', () => {
+            // Chart.js maneja la respuesta, pero si se cambia de orientación, ayuda refrescar.
+            // Para evitar la recreación constante, simplemente se puede confiar en el 'responsive: true'
+        });
+    </script>
+</body>
+</html>
